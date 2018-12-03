@@ -51,6 +51,9 @@ public class TodosResource {
 	//   HTTP method: GET
 	// Headers:
     //      Accept:  application/json   or application/xml
+	@GET
+	@Path("/{id}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Todo getTodo(@PathParam("id") int id) {
 		// Retrieve a row from the todos table in the Derby database
 		// using the id passed by client via URL
@@ -96,6 +99,9 @@ public class TodosResource {
 	// Headers:
 	//     Content-Type: application/json
 	//     Accept: application/json
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Todo updateTodo(Todo todo) {
 		em.getTransaction().begin();
 		em.merge(todo); 
@@ -113,7 +119,10 @@ public class TodosResource {
 	// HTTP method: DELETE
 	// Headers:
 	//      Accept: application/json
-    public Response deleteTodo(@PathParam("id") int id) {
+        @DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+        public Response deleteTodo(@PathParam("id") int id) {
 		em.getTransaction().begin();
         em.remove(em.find(Todo.class, id)); 
         em.getTransaction().commit();
